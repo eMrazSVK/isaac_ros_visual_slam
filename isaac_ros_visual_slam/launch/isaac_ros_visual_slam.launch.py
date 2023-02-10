@@ -21,7 +21,7 @@ def generate_launch_description():
                     'enable_rectified_pose': True,
                     'denoise_input_images': False,
                     'rectified_images': True,
-                    'enable_debug_mode': False,
+                    'enable_debug_mode': True,
                     'enable_imu': False,
                     'debug_dump_path': '/tmp/elbrus',
                     'input_imu_frame': 'imu',

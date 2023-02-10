@@ -35,13 +35,13 @@ VisualSlamNode::VisualSlamNode(rclcpp::NodeOptions options)
   denoise_input_images_(declare_parameter<bool>("denoise_input_images", false)),
   rectified_images_(declare_parameter<bool>("rectified_images", true)),
   enable_imu_(declare_parameter<bool>("enable_imu", false)),
-  enable_observations_view_(declare_parameter<bool>("enable_observations_view", false)),
-  enable_landmarks_view_(declare_parameter<bool>("enable_landmarks_view", false)),
-  enable_debug_mode_(declare_parameter<bool>("enable_debug_mode", false)),
+  enable_observations_view_(declare_parameter<bool>("enable_observations_view", true)),
+  enable_landmarks_view_(declare_parameter<bool>("enable_landmarks_view", true)),
+  enable_debug_mode_(declare_parameter<bool>("enable_debug_mode", true)),
   debug_dump_path_(declare_parameter<std::string>("debug_dump_path", "/tmp/elbrus")),
 
   enable_localization_n_mapping_(declare_parameter<bool>("enable_localization_n_mapping", true)),
-  enable_slam_visualization_(declare_parameter<bool>("enable_slam_visualization", false)),
+  enable_slam_visualization_(declare_parameter<bool>("enable_slam_visualization", true)),
 
   input_base_frame_(declare_parameter<std::string>("input_base_frame", "")),
   input_left_camera_frame_(declare_parameter<std::string>("input_left_camera_frame", "")),
@@ -70,13 +70,13 @@ VisualSlamNode::VisualSlamNode(rclcpp::NodeOptions options)
       1)),
   // Subscribers
   left_image_sub_(message_filters::Subscriber<sensor_msgs::msg::Image>(
-      this, "stereo_camera/left/image")),
+      this, "/ov9281_front_rect/left/image_raw")),
   left_camera_info_sub_(message_filters::Subscriber<sensor_msgs::msg::CameraInfo>(
-      this, "stereo_camera/left/camera_info")),
+      this, "/ov9281_front_rect/left/camera_info")),
   right_image_sub_(message_filters::Subscriber<sensor_msgs::msg::Image>(
-      this, "stereo_camera/right/image")),
+      this, "/ov9281_front_rect/right/image_raw")),
   right_camera_info_sub_(message_filters::Subscriber<sensor_msgs::msg::CameraInfo>(
-      this, "stereo_camera/right/camera_info")),
+      this, "/ov9281_front_rect/right/camera_info")),
   imu_sub_(create_subscription<sensor_msgs::msg::Imu>(
       "visual_slam/imu", rclcpp::QoS(100),
       std::bind(&VisualSlamNode::ReadImuData, this, std::placeholders::_1))),

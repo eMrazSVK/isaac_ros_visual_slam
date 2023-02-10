@@ -38,13 +38,9 @@ find_package(Threads REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
 # Elbrus
-include_directories(elbrus/include)
+include_directories(/usr/local/include/elbrus)
 add_library(elbrus SHARED IMPORTED)
-if( ${ARCHITECTURE} STREQUAL "x86_64" )
-  set_property(TARGET elbrus PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/elbrus/lib_x86_64/libelbrus.so)
-elseif( ${ARCHITECTURE} STREQUAL "aarch64" )
-  set_property(TARGET elbrus PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/elbrus/lib_aarch64_xavier/libelbrus.so)
-endif()
+set_property(TARGET elbrus PROPERTY IMPORTED_LOCATION /usr/local/lib/libelbrus.so)
 
 # visual_slam_node
 ament_auto_add_library(
@@ -78,13 +74,13 @@ install(TARGETS ${PROJECT_NAME}
 )
 
 # Install Elbrus
-if( ${ARCHITECTURE} STREQUAL "x86_64" )
-  install(DIRECTORY elbrus/lib_x86_64/ DESTINATION share/elbrus)
-elseif( ${ARCHITECTURE} STREQUAL "aarch64" )
-  install(DIRECTORY elbrus/lib_aarch64_xavier/ DESTINATION share/elbrus)
-endif()
-set_target_properties(visual_slam_node PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
-set_target_properties(visual_slam_node PROPERTIES INSTALL_RPATH "$ORIGIN/../share/elbrus")
+# if( ${ARCHITECTURE} STREQUAL "x86_64" )
+#  install(DIRECTORY elbrus/lib_x86_64/ DESTINATION share/elbrus)
+# elseif( ${ARCHITECTURE} STREQUAL "aarch64" )
+#  install(DIRECTORY elbrus/lib_aarch64_xavier/ DESTINATION share/elbrus)
+# endif()
+# set_target_properties(visual_slam_node PROPERTIES BUILD_WITH_INSTALL_RPATH TRUE)
+# set_target_properties(visual_slam_node PROPERTIES INSTALL_RPATH "$ORIGIN/../share/elbrus")
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
